@@ -1,5 +1,8 @@
 # Project Prototype 3 — Status Report
-
+SCREENSHOTS:
+![Home page](<Images/Home page.png>)
+![Project page light mode](<Images/Project Light.png>)
+![Tools Page](<Images/Tools Dark.png>)
 ## 1) Features implemented so far
 
 1. **Dynamic greeting and live clock on the home page**  
