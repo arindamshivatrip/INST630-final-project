@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ari Portfolio — Contact</title>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body data-page="contact">
+    <header class="topbar">
+<h1 class="site-home">
+  <a href="index.html" aria-label="Go to home page">
+    🏠 Ari’s Portfolio
+  </a>
+</h1>
+
+      <nav>
+        <a href="projects.html">Projects</a>
+        <a href="tools.html">Tools</a>
+        <a href="contact.html">Contact</a>
+
+        <button
+  id="theme-toggle"
+  class="theme-switch"
+  type="button"
+  role="switch"
+  aria-checked="false"
+  aria-label="Toggle dark mode"
+>
+  <span class="switch-track">
+    <span class="switch-thumb"></span>
+  </span>
+</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="section">
+        <h2>Contact</h2>
+        <p>
+          Want to reach out? Send a quick message here or use the email link below.
+        </p>
+      </section>
+
+      <section class="section" id="contact-section">
+        <h3>Send a message</h3>
+
+        <form id="contact-form" novalidate>
+          <div>
+            <label for="contact-name">Your name:</label>
+            <input
+              type="text"
+              id="contact-name"
+              name="name"
+              required
+              minlength="2"
+              maxlength="60"
+              autocomplete="name"
+            />
+          </div>
+
+          <div>
+            <label for="contact-email">Your email:</label>
+            <input
+              type="email"
+              id="contact-email"
+              name="email"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div>
+            <label for="contact-topic">Topic:</label>
+            <select id="contact-topic" name="topic" required>
+              <option value="" selected disabled>Select one…</option>
+              <option value="project">Project / Collaboration</option>
+              <option value="job">Job / Internship</option>
+              <option value="feedback">Portfolio feedback</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="contact-message">Message:</label>
+            <textarea
+              id="contact-message"
+              name="message"
+              rows="6"
+              required
+              minlength="10"
+              maxlength="1000"
+              placeholder="Write something nice 🙂"
+            ></textarea>
+            <div id="message-counter" aria-live="polite" style="white-space: pre-wrap;"></div>
+
+          </div>
+
+          <button type="submit">Generate email draft</button>
+          <button type="button" id="open-email">Open in email app</button>
+        </form>
+
+<div id="contact-status" aria-live="polite" style="white-space: pre-wrap;"></div>
+
+        <hr />
+
+        <h3>Direct links</h3>
+        <ul>
+          <li>
+            Email:
+            <a id="contact-email-link" href="mailto:arindamtrip@gmail.com">
+              arindamtrip@gmail.com
+            </a>
+          </li>
+          <li>LinkedIn: <a href="#" id="contact-linkedin" target="_blank" rel="noopener">Your LinkedIn</a></li>
+          <li>GitHub: <a href="#" id="contact-github" target="_blank" rel="noopener">Your GitHub</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- Shared -->
+    <script src="script.js"></script>
+
+    <!-- Optional jQuery for animations on this page too -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Contact page JS (we’ll build next) -->
+    <script src="contact.js"></script>
+  </body>
+</html>

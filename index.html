@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ari Portfolio — Home</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body data-page="home">
+    <header class="topbar">
+<h1 class="site-home">
+  <a href="index.html" aria-label="Go to home page">
+    🏠 Ari’s Portfolio
+  </a>
+</h1>
+
+      <nav>
+        <a href="projects.html">Projects</a>
+        <a href="tools.html">Tools</a>
+        <a href="contact.html">Contact</a>
+
+        <button
+  id="theme-toggle"
+  class="theme-switch"
+  type="button"
+  role="switch"
+  aria-checked="false"
+  aria-label="Toggle dark mode"
+>
+  <span class="switch-track">
+    <span class="switch-thumb"></span>
+  </span>
+</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <!-- Title OUTSIDE the boxed sections -->
+      <h1 class="site-title">ARINDAM</h1>
+
+      <!-- Squiggle line UNDER the title (also outside the boxed sections) -->
+      <svg
+        id="name-underline"
+        width="420"
+        height="24"
+        viewBox="0 0 420 24"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-label="Animated underline"
+        role="img"
+      >
+        <path
+          id="underline-path"
+          d="M10 14 C 80 2, 140 26, 210 14 S 340 2, 410 14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="4"
+          stroke-linecap="round"
+          pathLength="1"
+          style="stroke-dasharray: 1; stroke-dashoffset: 1;"
+        />
+      </svg>
+
+      <section id="hero" class="section">
+        <h2 id="greeting-heading">Hi, I’m Ari.</h2>
+
+        <p>
+          <strong>Local time:</strong>
+          <span id="clock">--:--:--</span>
+        </p>
+
+        <p id="greeting-message"></p>
+      </section>
+
+      <section id="spotify" class="section">
+        <h2>What I’m listening to while coding</h2>
+        <p>Here’s one of the playlists I usually have on in the background:</p>
+
+        <iframe
+          data-testid="embed-iframe"
+          style="border-radius: 12px"
+          src="https://open.spotify.com/embed/playlist/2GLTGwqpCTEfnMYrOqNwFq?utm_source=generator"
+          width="70%"
+          height="352"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </section>
+    </main>
+
+    <!-- Shared across all pages -->
+    <script src="script.js"></script>
+
+    <!-- Home-only behavior -->
+    <script src="home.js"></script>
+  </body>
+</html>

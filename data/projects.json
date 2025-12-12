@@ -1,0 +1,162 @@
+ {
+  "meta": {
+    "version": "1.0",
+    "owner": "Ari",
+    "lastUpdated": "2025-12-11"
+  },
+  "items": [
+    {
+      "id": "work-loreal-ml-ui",
+      "kind": "work",
+      "title": "Predictive ML Web App for APAC Markets",
+      "org": "L’Oréal Singapore",
+      "role": "Data Analytics Specialist",
+      "dateRange": "Jul 2023 – Aug 2025",
+      "domains": ["Web", "AI", "Data"],
+      "colorKey": "AI",
+      "tech": ["Web UI", "ML", "Dashboards", "Agile"],
+      "highlights": [
+        "Engineered a predictive ML application with a responsive web UI for 200+ business users across 10+ APAC markets.",
+        "Improved promotional efficiency by 24% and reduced dependency on the data team via self-serve interfaces.",
+        "Managed timelines and deliverables through agile sprints."
+      ],
+      "metrics": [
+        { "label": "Users", "value": "200+" },
+        { "label": "Markets", "value": "10+ APAC" },
+        { "label": "Efficiency", "value": "+24%" }
+      ],
+      "links": {}
+    },
+    {
+      "id": "work-loreal-ea-dashboards",
+      "kind": "work",
+      "title": "Power BI Dashboards + App Storefront",
+      "org": "L’Oréal Singapore",
+      "role": "Enterprise Architecture Intern",
+      "dateRange": "May 2022 – Sep 2022",
+      "domains": ["Data", "Web"],
+      "colorKey": "Data",
+      "tech": ["Power BI", "Power Platform", "Databases"],
+      "highlights": [
+        "Built Power BI dashboards reducing access time to application data by 90%.",
+        "Designed an application storefront improving discoverability by 50%.",
+        "Optimized database size by 30%, reducing load time by 20%."
+      ],
+      "metrics": [
+        { "label": "Access time", "value": "-90%" },
+        { "label": "Discoverability", "value": "+50%" },
+        { "label": "DB size", "value": "-30%" },
+        { "label": "Load time", "value": "-20%" }
+      ],
+      "links": {}
+    },
+    {
+      "id": "work-spdigital-react",
+      "kind": "work",
+      "title": "SP Utilities Web Pages",
+      "org": "SP Digital, Singapore",
+      "role": "Full Stack Developer Intern",
+      "dateRange": "Jun 2021 – Dec 2021",
+      "domains": ["Web"],
+      "colorKey": "Web",
+      "tech": ["React", "JavaScript"],
+      "highlights": [
+        "Built 150+ production-ready pages using React/JavaScript.",
+        "Reduced customer support tickets by 20% via improved navigation and performance."
+      ],
+      "metrics": [
+        { "label": "Pages", "value": "150+" },
+        { "label": "Support tickets", "value": "-20%" }
+      ],
+      "links": {}
+    },
+    {
+      "id": "proj-vr-med-sim",
+      "kind": "project",
+      "title": "Virtual Reality Medical Emergency Simulator",
+      "org": "NUS",
+      "role": "Project",
+      "dateRange": "Mar 2023 – May 2023",
+      "domains": ["XR"],
+      "colorKey": "XR",
+      "tech": ["Unity3D", "C#", "Oculus", "XR Interaction Toolkit"],
+      "highlights": [
+        "Designed and developed an immersive VR medical training simulator in Unity3D with smooth interactions on consumer-grade hardware.",
+        "Received Silver accolade in the 22nd STEPS student semester project showcase."
+      ],
+      "metrics": [{ "label": "Award", "value": "Silver (STEPS)" }],
+      "links": {}
+    },
+    {
+      "id": "proj-music-transcription",
+      "kind": "project",
+      "title": "Music and Lyrics Transcription App",
+      "org": "NUS",
+      "role": "Project",
+      "dateRange": "Oct 2022 – Nov 2022",
+      "domains": ["AI", "Web"],
+      "colorKey": "AI",
+      "tech": ["Python", "React", "SpeechBrain", "ASR"],
+      "highlights": [
+        "Developed a Python + SpeechBrain pipeline for AI-driven melody & lyrics transcription.",
+        "Achieved F1 score of 0.75 and 18–20% WER."
+      ],
+      "metrics": [
+        { "label": "F1", "value": "0.75" },
+        { "label": "WER", "value": "18–20%" }
+      ],
+      "links": {}
+    },
+    {
+      "id": "proj-shoot-it",
+      "kind": "project",
+      "title": "ShooT_IT (AR Laser Tag System)",
+      "org": "NUS",
+      "role": "Project",
+      "dateRange": "Jan 2022 – May 2022",
+      "domains": ["XR"],
+      "colorKey": "XR",
+      "tech": ["Unity3D", "C#", "Vuforia", "MQTT"],
+      "highlights": [
+        "Created an augmented reality laser tag system integrating physical action with gameplay.",
+        "Implemented game logic using C# and MQTT with ~50ms lag for server-to-device game state updates."
+      ],
+      "metrics": [{ "label": "Latency", "value": "~50ms" }],
+      "links": {}
+    },
+    {
+      "id": "proj-trailtales",
+      "kind": "project",
+      "title": "TrailTales (Domestic Tourism App)",
+      "org": "NUS",
+      "role": "Project",
+      "dateRange": "May 2020 – Aug 2020",
+      "domains": ["Mobile", "Web"],
+      "colorKey": "Mobile",
+      "tech": ["Flutter", "Firebase", "Figma", "Google Maps API", "Dart"],
+      "highlights": [
+        "Designed and developed a cross-platform app to promote safe domestic tourism in Singapore.",
+        "Built high-fidelity mockups in Figma and implemented using Flutter, Firebase, and Google Maps API.",
+        "Launched a public beta with 20+ participants and iterated based on feedback."
+      ],
+      "metrics": [{ "label": "Beta users", "value": "20+" }],
+      "links": {}
+    },
+    {
+      "id": "course-inst630-portfolio",
+      "kind": "project",
+      "title": "INST630 Personal Portfolio Website",
+      "org": "UMD",
+      "role": "Course Project",
+      "dateRange": "Fall 2025",
+      "domains": ["Web"],
+      "colorKey": "Web",
+      "tech": ["HTML", "CSS", "JavaScript", "jQuery", "JSON/AJAX"],
+      "highlights": [
+        "Multi-page portfolio with dynamic greeting/clock, SVG animation, theme toggle (localStorage), and interactive pages built throughout the semester."
+      ],
+      "metrics": [],
+      "links": {}
+    }
+  ]
+}

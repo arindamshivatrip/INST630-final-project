@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ari Portfolio — Projects</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body data-page="projects">
+    <header class="topbar">
+<h1 class="site-home">
+  <a href="index.html" aria-label="Go to home page">
+    🏠 Ari’s Portfolio
+  </a>
+</h1>
+
+      <nav>
+        <a href="projects.html">Projects</a>
+        <a href="tools.html">Tools</a>
+        <a href="contact.html">Contact</a>
+        <button
+  id="theme-toggle"
+  class="theme-switch"
+  type="button"
+  role="switch"
+  aria-checked="false"
+  aria-label="Toggle dark mode"
+>
+  <span class="switch-track">
+    <span class="switch-thumb"></span>
+  </span>
+</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="section">
+        <h2>Projects</h2>
+        <p>
+          This page will load project data from a JSON file and render cards
+          dynamically.
+        </p>
+
+        <div id="filters" aria-label="Project filters">
+          <button type="button" data-filter="all">All</button>
+          <button type="button" data-filter="project">Projects</button>
+          <button type="button" data-filter="work">Work</button>
+          <button type="button" data-filter="XR">XR</button>
+          <button type="button" data-filter="AI">AI</button>
+          <button type="button" data-filter="Web">Web</button>
+          <button type="button" data-filter="Data">Data</button>
+          <button type="button" data-filter="Mobile">Mobile</button>
+        </div>
+
+        <div id="projects-grid" aria-live="polite">
+          <!-- JS will inject project cards here -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared base behavior: theme, etc. -->
+    <script src="script.js"></script>
+
+    <!-- Page-specific behavior (we'll build next) -->
+     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="projects.js"></script>
+  </body>
+</html>
