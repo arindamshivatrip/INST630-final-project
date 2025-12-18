@@ -1,9 +1,11 @@
-
-
-/* Google fonts (no HTML change needed) */
+/* =========================================================
+   IMPORTS
+   ========================================================= */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&family=Major+Mono+Display&display=swap");
 
-/* ---------- Theme tokens ---------- */
+/* =========================================================
+   THEME TOKENS
+   ========================================================= */
 :root {
   /* Pastel contrasting palette 2 (your list) */
   --lavender-700: #8383f7;
@@ -41,6 +43,12 @@
   /* Motion */
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --speed: 180ms;
+
+  /* --- Chip colors (light mode) --- */
+  --chip-bg: rgba(176, 176, 250, 0.34);
+  --chip-domain-bg: rgba(187, 240, 184, 0.42);
+  --chip-tech-bg: rgba(251, 182, 185, 0.40);
+  --chip-border: rgba(15, 23, 42, 0.20);
 }
 
 html[data-theme="dark"] {
@@ -53,16 +61,21 @@ html[data-theme="dark"] {
 
   --shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
   --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.25);
+
+  /* --- Chip colors (dark mode) --- */
+  --chip-bg: rgba(176, 176, 250, 0.18);
+  --chip-domain-bg: rgba(187, 240, 184, 0.22);
+  --chip-tech-bg: rgba(251, 182, 185, 0.20);
+  --chip-border: rgba(238, 242, 255, 0.22);
+
 }
 
-/* ---------- Base / reset ---------- */
-html {
-  scroll-behavior: smooth;
-}
+/* =========================================================
+   BASE / RESET
+   ========================================================= */
+* { box-sizing: border-box; }
 
-* {
-  box-sizing: border-box;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -83,26 +96,23 @@ img, svg, video {
 }
 
 /* Selection */
-::selection {
-  background: rgba(131, 131, 247, 0.28);
-}
+::selection { background: rgba(131, 131, 247, 0.28); }
 
-/* ---------- Links ---------- */
+/* Links */
 a {
   color: inherit;
   text-decoration-color: rgba(131, 131, 247, 0.55);
   text-underline-offset: 3px;
 }
+a:hover { text-decoration-color: rgba(131, 131, 247, 1); }
 
-a:hover {
-  text-decoration-color: rgba(131, 131, 247, 1);
-}
-/* Smooth theme transitions (light <-> dark) */
+/* =========================================================
+   GLOBAL MOTION / TRANSITIONS
+   ========================================================= */
 html,
 body,
 .topbar,
 .section,
-#theme-toggle,
 a,
 button,
 input,
@@ -134,7 +144,6 @@ body {
   body,
   .topbar,
   .section,
-  #theme-toggle,
   a,
   button,
   input,
@@ -151,6 +160,46 @@ body {
     transition: none !important;
   }
 }
+
+/* =========================================================
+   GLOBAL LAYOUT PRIMITIVES
+   ========================================================= */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 22px 16px 48px;
+}
+
+.section {
+  margin: 18px 0;
+  padding: 18px 18px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+.section h2,
+.section h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  letter-spacing: 0.2px;
+}
+
+.section p {
+  margin: 8px 0;
+  color: var(--muted);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 18px 0;
+}
+
+/* =========================================================
+   GLOBAL COMPONENTS
+   ========================================================= */
 
 /* ---------- Topbar / Nav ---------- */
 .topbar {
@@ -180,20 +229,61 @@ html[data-theme="dark"] .topbar {
   letter-spacing: 0.2px;
 }
 
-.topbar h1 a {
-  text-decoration: none;
-}
-/* Home link affordance */
+.topbar h1 a { text-decoration: none; }
+
+/* Home link affordance (brand pill) */
 .site-home a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
-  border-radius: 10px;
+
+  padding: 8px 10px;
+  border-radius: 999px;
+
+  background: rgba(131, 131, 247, 0.08);
+  border: 1px solid rgba(131, 131, 247, 0.18);
+
+  text-decoration: none;
+  color: var(--text);
+
   transition:
     background var(--speed) var(--ease),
     transform var(--speed) var(--ease),
     box-shadow var(--speed) var(--ease);
+}
+
+/* Gradient border “runner” */
+@property --borderAngle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0turn;
+}
+
+.site-home a::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  opacity: 0;
+  pointer-events: none;
+
+  --borderAngle: 0turn;
+
+  background: conic-gradient(
+    from var(--borderAngle),
+    rgba(131, 131, 247, 0.0),
+    rgba(131, 131, 247, 0.95),
+    rgba(131, 131, 247, 0.0),
+    rgba(131, 131, 247, 0.0)
+  );
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
 }
 
 .site-home a:hover {
@@ -202,9 +292,22 @@ html[data-theme="dark"] .topbar {
   box-shadow: var(--shadow-soft);
 }
 
-.site-home a:active {
-  transform: translateY(0);
+.site-home a:hover::before {
+  opacity: 1;
+  animation: borderSweep 1.2s linear infinite;
 }
+
+@keyframes borderSweep {
+  to { --borderAngle: 1turn; }
+}
+
+.site-home a:active { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .site-home a:hover::before { animation: none; }
+}
+
+/* Nav links */
 .topbar nav {
   display: flex;
   align-items: center;
@@ -224,8 +327,8 @@ html[data-theme="dark"] .topbar {
   color: var(--text);
 }
 
-/* Highlight current page link using body[data-page] */
-body[data-page="home"] .topbar nav a[href="index.html"],
+/* Highlight current page link using body[data-page]
+   NOTE: home highlighting should be handled by .site-home (index.html isn’t in nav). */
 body[data-page="projects"] .topbar nav a[href="projects.html"],
 body[data-page="tools"] .topbar nav a[href="tools.html"],
 body[data-page="contact"] .topbar nav a[href="contact.html"] {
@@ -234,22 +337,6 @@ body[data-page="contact"] .topbar nav a[href="contact.html"] {
   border: 1px solid rgba(131, 131, 247, 0.25);
 }
 
-/* Theme button */
-/* #theme-toggle {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  padding: 8px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: var(--shadow-soft);
-  transition: transform var(--speed) var(--ease), background var(--speed) var(--ease);
-}
-
-#theme-toggle:hover {
-  transform: translateY(-1px);
-  background: rgba(131, 131, 247, 0.12);
-} */
 /* ---------- Dark mode toggle switch ---------- */
 .theme-switch {
   border: none;
@@ -283,136 +370,30 @@ body[data-page="contact"] .topbar nav a[href="contact.html"] {
 }
 
 /* Dark mode ON */
-html[data-theme="dark"] .switch-track {
-  background: var(--accent);
-}
-
+html[data-theme="dark"] .switch-track { background: var(--accent); }
 html[data-theme="dark"] .switch-thumb {
   transform: translateX(20px);
   background: #0b1020;
 }
 
-
-/* ---------- Layout ---------- */
-.container {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 22px 16px 48px;
-}
-
-.section {
-  margin: 18px 0;
-  padding: 18px 18px;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
-}
-
-.section h2, .section h3 {
-  margin: 0 0 10px;
-  font-family: var(--font-display);
-  letter-spacing: 0.2px;
-}
-
-.section p {
-  margin: 8px 0;
-  color: var(--muted);
-}
-
-/* ---------- Home page polish ---------- */
-
-/* ---------- Home page name title ---------- */
-.site-title {
-  font-family: "Major Mono Display", monospace;
-  font-size: clamp(42px, 7vw, 72px);
-  text-align: center;
-  letter-spacing: 0.08em;
-  margin: 28px 0 10px;
-  color: var(--text);
-  font-weight: 400;
-  line-height: 1;
-  user-select: none;
-
-  /* Animation */
-  opacity: 0;
-  transform: translateY(10px) scale(0.99);
-  animation: titleEnter 867ms var(--ease) forwards;
-}
-
-@keyframes titleEnter {
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Squiggle underline sits under title, centered, outside cards */
-#name-underline {
-  display: block;
-  margin: 0 auto 18px;
-  opacity: 0.95;
-  color: var(--accent);
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .site-title {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-}
-
-
-#hero h2 {
-  font-size: 34px;
-  line-height: 1.1;
-  margin-bottom: 8px;
-}
-
-#clock {
-  font-variant-numeric: tabular-nums;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: rgba(176, 176, 250, 0.18);
-  border: 1px solid rgba(176, 176, 250, 0.3);
-  color: var(--text);
-}
-
-#name-underline {
-  margin-top: 10px;
-  opacity: 0.9;
-  color: var(--accent);
-}
-
-#spotify iframe {
-  width: min(820px, 100%);
-  height: 380px;
-  border: 0;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
 /* ---------- Buttons (generic) ---------- */
-button {
-  font: inherit;
-}
+button { font: inherit; }
 
-.section button,
-#filters button {
+.section button {
   border: 1px solid var(--border);
   background: var(--surface-solid);
   color: var(--text);
   padding: 10px 12px;
   border-radius: 12px;
   cursor: pointer;
-  transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease), background var(--speed) var(--ease);
+  transition:
+    transform var(--speed) var(--ease),
+    box-shadow var(--speed) var(--ease),
+    background var(--speed) var(--ease);
   box-shadow: var(--shadow-soft);
 }
 
-.section button:hover,
-#filters button:hover {
+.section button:hover {
   transform: translateY(-1px);
   background: rgba(131, 131, 247, 0.10);
 }
@@ -446,22 +427,14 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 4px rgba(131, 131, 247, 0.16);
 }
 
-form > div {
-  margin-bottom: 12px;
-}
+form > div { margin-bottom: 12px; }
 
 #contact-form button {
   width: auto;
   margin-right: 10px;
 }
 
-hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 18px 0;
-}
-
-/* Status blocks (tools + contact) */
+/* ---------- Status blocks (tools + contact) ---------- */
 #sleep-result,
 #earth-status,
 #contact-status,
@@ -475,6 +448,7 @@ hr {
   color: var(--text);
   white-space: pre-wrap;
 }
+
 /* Hide empty status blocks so they don't leave blank space */
 #earth-status:empty,
 #sleep-result:empty,
@@ -483,6 +457,7 @@ hr {
 #message-counter:empty {
   display: none;
 }
+
 /* Loading state should NOT look like a boxed alert */
 #earth-status[data-state="loading"] {
   background: none;
@@ -492,7 +467,6 @@ hr {
   color: var(--muted);
   font-size: 0.95rem;
 }
-
 
 /* If JS sets dataset state */
 [data-state="error"] {
@@ -505,28 +479,155 @@ hr {
   border-color: rgba(154, 233, 149, 0.45) !important;
 }
 
-/* Earth figure */
-#earth-figure {
-  margin: 14px 0 0;
+/* =========================================================
+   PAGE: HOME
+   ========================================================= */
+
+/* Home page name title */
+.site-title {
+  font-family: "Major Mono Display", monospace;
+  font-size: clamp(42px, 7vw, 72px);
+  text-align: center;
+  letter-spacing: 0.08em;
+  margin: 28px 0 10px;
+  color: var(--text);
+  font-weight: 400;
+  line-height: 1;
+  user-select: none;
+
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+  animation: titleEnter 867ms var(--ease) forwards;
 }
 
-#earth-image {
+@keyframes titleEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-title {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Squiggle underline sits under title, centered */
+#name-underline {
+  display: block;
+  margin: 10px auto 18px;
+  opacity: 0.9;
+  color: var(--accent);
+}
+
+#hero h2 {
+  font-size: 34px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+#clock {
+  font-variant-numeric: tabular-nums;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(176, 176, 250, 0.18);
+  border: 1px solid rgba(176, 176, 250, 0.3);
+  color: var(--text);
+}
+
+#spotify iframe {
+  width: min(820px, 100%);
+  height: 380px;
+  border: 0;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
 
-#earth-fact {
-  margin-top: 10px;
-  color: var(--muted);
+/* =========================================================
+   PAGE: PROJECTS
+   ========================================================= */
+
+/* The wrapper card around filters (since you’re using filters-wrap in HTML) */
+.filters-wrap {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
-/* ---------- Projects page ---------- */
-#filters {
+.filters-label {
+  margin-bottom: 10px;
+}
+
+.filters-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Filter chips row */
+.filters {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 14px;
 }
+
+/* Filters are chips, NOT generic buttons */
+/* Filters are chips, NOT generic buttons */
+.filter-btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface-solid);
+  color: var(--muted);
+
+  padding: 7px 12px;      /* slightly tighter */
+  min-height: 34px;       /* consistent pill height */
+  border-radius: 999px;
+
+  cursor: pointer;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset; /* subtle “designed” feel */
+  transition:
+    background var(--speed) var(--ease),
+    color var(--speed) var(--ease),
+    border-color var(--speed) var(--ease),
+    transform var(--speed) var(--ease),
+    box-shadow var(--speed) var(--ease);
+}
+
+.filter-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(131, 131, 247, 0.10);
+  color: var(--text);
+  border-color: rgba(131, 131, 247, 0.22);
+}
+
+/* Selected filter state (clean + on-brand) */
+.filter-btn.is-active,
+.filter-btn[aria-pressed="true"] {
+  background: rgba(131, 131, 247, 0.16);
+  color: var(--text);
+  border-color: rgba(131, 131, 247, 0.35);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.40) inset,
+    0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+/* Keyboard focus */
+.filter-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(131, 131, 247, 0.16),
+    0 1px 0 rgba(255,255,255,0.40) inset;
+}
+
 
 #projects-grid {
   margin-top: 16px;
@@ -563,7 +664,7 @@ hr {
   font-size: 0.95rem;
 }
 
-/* Decorative accent stripe (color-coded later via data-colorkey) */
+/* Decorative accent stripe */
 .project-card::before {
   content: "";
   position: absolute;
@@ -573,35 +674,56 @@ hr {
   opacity: 0.9;
 }
 
-/* Chips */
 .chips {
+  display: flex;
+  flex-direction: column;  /* separate rows */
+  gap: 10px;               /* space between domain row + tech row */
+  margin: 10px 0 12px;
+}
+
+/* Row containers (created in JS) */
+.chip-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 10px 0 12px;
+}
+
+/* Domains should feel more “categorical” (slightly lighter) */
+.chip-row--domains .chip {
+  opacity: 0.85;
+}
+
+/* Tech stays fully emphasized */
+.chip-row--tech .chip {
+  opacity: 1;
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
+  justify-content: center;
+
+  padding: 6px 12px;          /* slightly more horizontal padding */
+  min-height: 28px;           /* locks vertical size */
+  min-width: 44px;            /* prevents circular chips */
+
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(176, 176, 250, 0.14);
+  border: 1px solid var(--chip-border);
+  background: var(--chip-bg);
   font-size: 0.85rem;
   color: var(--text);
+  white-space: nowrap;
+  font-weight: 500;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.22) inset;
 }
 
-.chip-domain {
-  background: rgba(187, 240, 184, 0.14);
+html[data-theme="dark"] .chip {
+  box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset;
 }
 
-.chip-tech {
-  background: rgba(251, 182, 185, 0.14);
-}
+.chip-domain { background: var(--chip-domain-bg); }
+.chip-tech   { background: var(--chip-tech-bg); }
 
-/* Highlights list */
 .highlights {
   margin: 0;
   padding-left: 18px;
@@ -623,7 +745,38 @@ hr {
   font-size: 0.85rem;
 }
 
-/* Responsive */
+/* Filter icon (mask method — works in dark mode) */
+.filter-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  background-color: var(--muted); /* auto adapts in dark mode */
+
+  -webkit-mask: url("assets/filter.png") center / contain no-repeat;
+          mask: url("assets/filter.png") center / contain no-repeat;
+
+  opacity: 0.9;
+}
+
+/* =========================================================
+   PAGE: TOOLS
+   ========================================================= */
+#earth-figure { margin: 14px 0 0; }
+
+#earth-image {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+#earth-fact {
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+/* =========================================================
+   PAGE: CONTACT
+   ========================================================= */
+
 @media (max-width: 900px) {
   .project-card { grid-column: span 12; }
   #hero h2 { font-size: 30px; }

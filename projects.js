@@ -45,10 +45,16 @@ function wireUpFilters() {
     const btn = e.target.closest("button[data-filter]");
     if (!btn) return;
 
+    // Update active state (visual + a11y)
+    filtersEl.querySelectorAll("button[data-filter]").forEach((b) => {
+      const isActive = b === btn;
+      b.classList.toggle("is-active", isActive);
+      b.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
     activeFilter = btn.dataset.filter;
     const filtered = applyFilter(allItems, activeFilter);
 
-    // Animate: fade out existing cards, then re-render, then fade in new ones
     animateSwap(() => renderProjects(filtered, { animate: true }));
   });
 }
@@ -103,14 +109,24 @@ function createCard(item) {
   const date = item.dateRange ? ` · ${item.dateRange}` : "";
   meta.textContent = `${org}${role}${date}`.trim();
 
-  const chips = document.createElement("div");
-  chips.className = "chips";
+const chips = document.createElement("div");
+chips.className = "chips";
 
-  const domains = Array.isArray(item.domains) ? item.domains : [];
-  domains.forEach((d) => chips.appendChild(makeChip(d, "domain")));
+const domains = Array.isArray(item.domains) ? item.domains : [];
+if (domains.length) {
+  const domainRow = document.createElement("div");
+  domainRow.className = "chip-row chip-row--domains";
+  domains.forEach((d) => domainRow.appendChild(makeChip(d, "domain")));
+  chips.appendChild(domainRow);
+}
 
-  const tech = Array.isArray(item.tech) ? item.tech : [];
-  tech.slice(0, 6).forEach((t) => chips.appendChild(makeChip(t, "tech")));
+const tech = Array.isArray(item.tech) ? item.tech : [];
+if (tech.length) {
+  const techRow = document.createElement("div");
+  techRow.className = "chip-row chip-row--tech";
+  tech.slice(0, 6).forEach((t) => techRow.appendChild(makeChip(t, "tech")));
+  chips.appendChild(techRow);
+}
 
   const ul = document.createElement("ul");
   ul.className = "highlights";

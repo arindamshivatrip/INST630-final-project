@@ -4,33 +4,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ari Portfolio — Projects</title>
+    <script src="theme-init.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body data-page="projects">
     <header class="topbar">
-<h1 class="site-home">
-  <a href="index.html" aria-label="Go to home page">
-    🏠 Ari’s Portfolio
-  </a>
-</h1>
+      <h1 class="site-home">
+        <a href="index.html" aria-label="Go to home page">
+          🏠 Ari’s Portfolio
+        </a>
+      </h1>
 
       <nav>
         <a href="projects.html">Projects</a>
         <a href="tools.html">Tools</a>
         <a href="contact.html">Contact</a>
         <button
-  id="theme-toggle"
-  class="theme-switch"
-  type="button"
-  role="switch"
-  aria-checked="false"
-  aria-label="Toggle dark mode"
->
-  <span class="switch-track">
-    <span class="switch-thumb"></span>
-  </span>
-</button>
+          id="theme-toggle"
+          class="theme-switch"
+          type="button"
+          role="switch"
+          aria-checked="false"
+          aria-label="Toggle dark mode"
+        >
+          <span class="switch-track">
+            <span class="switch-thumb"></span>
+          </span>
+        </button>
       </nav>
     </header>
 
@@ -42,15 +43,85 @@
           dynamically.
         </p>
 
-        <div id="filters" aria-label="Project filters">
-          <button type="button" data-filter="all">All</button>
-          <button type="button" data-filter="project">Projects</button>
-          <button type="button" data-filter="work">Work</button>
-          <button type="button" data-filter="XR">XR</button>
-          <button type="button" data-filter="AI">AI</button>
-          <button type="button" data-filter="Web">Web</button>
-          <button type="button" data-filter="Data">Data</button>
-          <button type="button" data-filter="Mobile">Mobile</button>
+        <div class="filters-wrap">
+          <div class="filters-label">
+            <span class="filters-title">
+              <span class="filter-icon" aria-hidden="true"></span>
+              Filters
+            </span>
+          </div>
+
+          <div
+            id="filters"
+            class="filters"
+            role="group"
+            aria-label="Project filters"
+          >
+            <button
+              type="button"
+              class="filter-btn is-active"
+              data-filter="all"
+              aria-pressed="true"
+            >
+              All
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="project"
+              aria-pressed="false"
+            >
+              Projects
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="work"
+              aria-pressed="false"
+            >
+              Work
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="XR"
+              aria-pressed="false"
+            >
+              XR
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="AI"
+              aria-pressed="false"
+            >
+              AI
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="Web"
+              aria-pressed="false"
+            >
+              Web
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="Data"
+              aria-pressed="false"
+            >
+              Data
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="Mobile"
+              aria-pressed="false"
+            >
+              Mobile
+            </button>
+          </div>
         </div>
 
         <div id="projects-grid" aria-live="polite">
@@ -63,7 +134,7 @@
     <script src="script.js"></script>
 
     <!-- Page-specific behavior (we'll build next) -->
-     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="projects.js"></script>
   </body>
 </html>
