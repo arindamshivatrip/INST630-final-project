@@ -7,35 +7,8 @@
     <script src="theme-init.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
-
   <body data-page="home">
-    <header class="topbar">
-      <h1 class="site-home">
-        <a href="index.html" aria-label="Go to home page">
-          🏠 Ari’s Portfolio
-        </a>
-      </h1>
-
-      <nav>
-        <a href="projects.html">Projects</a>
-        <a href="tools.html">Tools</a>
-        <a href="contact.html">Contact</a>
-
-        <button
-          id="theme-toggle"
-          class="theme-switch"
-          type="button"
-          role="switch"
-          aria-checked="false"
-          aria-label="Toggle dark mode"
-        >
-          <span class="switch-track">
-            <span class="switch-thumb"></span>
-          </span>
-        </button>
-      </nav>
-    </header>
-
+    <div id="nav-slot"></div>
     <main class="container">
       <!-- Title OUTSIDE the boxed sections -->
       <h1 class="site-title">ARINDAM</h1>
@@ -96,5 +69,6 @@
 
     <!-- Home-only behavior -->
     <script src="home.js"></script>
+    <div id="footer-slot"></div>
   </body>
 </html>

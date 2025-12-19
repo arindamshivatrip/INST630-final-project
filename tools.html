@@ -9,32 +9,7 @@
   </head>
 
   <body data-page="tools">
-    <header class="topbar">
-<h1 class="site-home">
-  <a href="index.html" aria-label="Go to home page">
-    🏠 Ari’s Portfolio
-  </a>
-</h1>
-
-      <nav>
-        <a href="projects.html">Projects</a>
-        <a href="tools.html">Tools</a>
-        <a href="contact.html">Contact</a>
-
-        <button
-  id="theme-toggle"
-  class="theme-switch"
-  type="button"
-  role="switch"
-  aria-checked="false"
-  aria-label="Toggle dark mode"
->
-  <span class="switch-track">
-    <span class="switch-thumb"></span>
-  </span>
-</button>
-      </nav>
-    </header>
+<div id="nav-slot"></div>
 
     <main class="container">
       <section class="section">
@@ -97,5 +72,7 @@
 
     <!-- Tools page JS -->
     <script src="tools.js"></script>
-  </body>
+  <div id="footer-slot"></div>
+
+</body>
 </html>
