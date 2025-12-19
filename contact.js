@@ -18,7 +18,7 @@ function initContactPage() {
   ensureMessageCounterExists();
 
   restoreFormFromStorage();
-  updateEmailHint();
+  // updateEmailHint();
   updateMessageCounter();
   updateButtonsState(openBtn);
 
@@ -99,13 +99,11 @@ function wireLiveValidation(form, status, openBtn) {
     });
   });
 
-  emailEl?.addEventListener("blur", () => {
-    const email = (emailEl.value || "").trim();
-    if (email && !isValidEmail(email)) {
-      showStatus(status, "Tip: that email doesn’t look valid yet.", true);
-      animateIn(status);
-    }
-  });
+emailEl?.addEventListener("blur", () => {
+  updateEmailHint();          // show “Looks good ✅” or the error hint
+  updateButtonsState(openBtn);
+});
+
 }
 
 function ensureEmailHintExists() {
@@ -124,29 +122,29 @@ function ensureEmailHintExists() {
   emailEl.insertAdjacentElement("afterend", hint);
 }
 
-function updateEmailHint() {
-  const emailEl = document.getElementById("contact-email");
-  const hint = document.getElementById("email-hint");
-  if (!emailEl || !hint) return;
+// function updateEmailHint() {
+//   const emailEl = document.getElementById("contact-email");
+//   const hint = document.getElementById("email-hint");
+//   if (!emailEl || !hint) return;
 
-  const email = (emailEl.value || "").trim();
+//   const email = (emailEl.value || "").trim();
 
-  if (!email) {
-    hint.textContent = "";
-    hint.dataset.state = "";
-    return;
-  }
+//   if (!email) {
+//     hint.textContent = "";
+//     hint.dataset.state = "";
+//     return;
+//   }
 
-  if (isValidEmail(email)) {
-    hint.textContent = "Looks good ✅";
-    hint.dataset.state = "ok";
-    animateIn(hint);
-  } else {
-    hint.textContent = "That email looks off — double-check the format (name@example.com).";
-    hint.dataset.state = "error";
-    animateIn(hint);
-  }
-}
+//   if (isValidEmail(email)) {
+//     hint.textContent = "Looks good ✅";
+//     hint.dataset.state = "ok";
+//     animateIn(hint);
+//   } else {
+//     hint.textContent = "That email looks off — double-check the format (name@example.com).";
+//     hint.dataset.state = "error";
+//     animateIn(hint);
+//   }
+// }
 
 /* ---------------- Character counter ---------------- */
 
