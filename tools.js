@@ -1,14 +1,13 @@
-// tools.js (tools page only)
+// Tools page only
 
 window.addEventListener("DOMContentLoaded", () => {
-  const page = document.body.dataset.page;
-  if (page !== "tools") return;
+  if (document.body.dataset.page !== "tools") return;
 
   initSleepCoffeeTool();
   initEarthFactsTool();
 });
 
-/* ---------------- 1) Sleep -> Coffee Calculator ---------------- */
+// Sleep → Coffee
 
 function initSleepCoffeeTool() {
   const form = document.getElementById("sleep-form");
@@ -20,7 +19,6 @@ function initSleepCoffeeTool() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // keep the raw input so we can detect weird stuff cleanly
     const raw = input.value.trim();
     const hours = Number(raw);
 
@@ -34,18 +32,16 @@ function initSleepCoffeeTool() {
 function computeCoffeeRecommendation(hoursSlept) {
   const h = Number(hoursSlept);
 
-  // invalid / negative
   if (!Number.isFinite(h) || h < 0) {
     return {
       cups: 0,
       isError: true,
       message:
         "Bestie… be serious for a sec.\n" +
-        "Hours slept = a real number between 0 and 24 pls."
+        "Hours slept = a real number between 0 and 24 pls.",
     };
   }
 
-  // spacetime jokes
   if (h > 24) {
     return {
       cups: 0,
@@ -53,7 +49,7 @@ function computeCoffeeRecommendation(hoursSlept) {
       message:
         `You slept ${h} hours.\n` +
         "Congrats, you bent spacetime.\n" +
-        "Try again without breaking physics."
+        "Try again without breaking physics.",
     };
   }
 
@@ -64,20 +60,15 @@ function computeCoffeeRecommendation(hoursSlept) {
       message:
         "You slept 24 hours.\n" +
         "Coffee: 0 cups ☕\n" +
-        "That wasn’t rest, that was a factory reset."
+        "That wasn’t rest, that was a factory reset.",
     };
   }
 
-  // coffee math (max 6)
   const ideal = 8;
   const debt = Math.max(0, Math.min(ideal - h, 12));
   let cups = Math.ceil(debt / 1.5);
   cups = Math.min(Math.max(cups, 0), 6);
 
-  const cupWord = cups === 1 ? "cup" : "cups";
-  const cupEmojis = cups > 0 ? "☕".repeat(cups) : "☕";
-
-  // bestie vibes (short + punchy)
   let vibe;
   if (h >= 9.5) vibe = "Emotionally stable. Mentally powerful. Scary.";
   else if (h >= 8) vibe = "Fully functional human behavior.";
@@ -91,30 +82,20 @@ function computeCoffeeRecommendation(hoursSlept) {
     vibe = "Zero sleep?? Bestie please drink water.";
   }
 
-  const finalCupWord = cups === 1 ? "cup" : "cups";
-  const finalCupEmojis = cups > 0 ? "☕".repeat(cups) : "☕";
+  const cupWord = cups === 1 ? "cup" : "cups";
+  const cupEmojis = cups > 0 ? "☕".repeat(cups) : "☕";
 
   return {
     cups,
     isError: false,
     message:
       `You slept ${h} hours.\n` +
-      `Coffee: ${cups} ${finalCupWord} ${finalCupEmojis}\n` +
-      vibe
+      `Coffee: ${cups} ${cupWord} ${cupEmojis}\n` +
+      vibe,
   };
 }
 
-
-
-/* ---------------- 2) Earth Fun Facts (Bootprint API) ---------------- */
-/*
-  Random Image & Fact:
-  GET https://api.bootprint.space/all/earth
-
-  Response includes at least:
-  - fact (string)
-  - image (url)
-*/
+// Earth facts (Bootprint)
 
 function initEarthFactsTool() {
   const btn = document.getElementById("get-earth-fact");
@@ -124,7 +105,6 @@ function initEarthFactsTool() {
 
   if (!btn || !status || !img || !caption) return;
 
-  // Clear initial content
   img.removeAttribute("src");
   img.alt = "";
   caption.textContent = "";
@@ -132,19 +112,20 @@ function initEarthFactsTool() {
   btn.addEventListener("click", async () => {
     setEarthLoadingState(btn, status, true);
 
-    // Animate old content out (if any), then fetch + animate in
+    // Animate old content out (if any), then fetch + animate in.
     await animateEarthOutIfNeeded(img, caption);
 
     try {
-      const res = await fetch("https://api.bootprint.space/all/earth", { cache: "no-store" });
+      const res = await fetch("https://api.bootprint.space/all/earth", {
+        cache: "no-store",
+      });
       if (!res.ok) throw new Error(`Bootprint failed (status ${res.status})`);
 
       const data = await res.json();
-
       const fact = data?.fact;
       const imageUrl = data?.image;
 
-      if (!fact || !imageUrl) throw new Error("Unexpected Bootprint response shape");
+      if (!fact || !imageUrl) throw new Error("Unexpected response shape");
 
       caption.textContent = fact;
       img.src = imageUrl;
@@ -154,7 +135,8 @@ function initEarthFactsTool() {
       animateEarthIn(img, caption);
     } catch (err) {
       console.error(err);
-      status.textContent = "Couldn’t fetch an Earth fact right now. Try again in a moment.";
+      status.textContent =
+        "Couldn’t fetch an Earth fact right now. Try again in a moment.";
     } finally {
       setEarthLoadingState(btn, status, false);
     }
@@ -174,19 +156,18 @@ function setEarthLoadingState(btn, statusEl, isLoading) {
   }
 }
 
-
-/* ---------------- 3) Animations (“slotting in”) ---------------- */
+// Animations
 
 function showResult(resultEl, text, isError) {
   resultEl.textContent = text;
   resultEl.dataset.state = isError ? "error" : "ok";
 
-  if (window.jQuery) {
-    $(resultEl)
-      .stop(true, true)
-      .css({ opacity: 0, marginLeft: "16px" })
-      .animate({ opacity: 1, marginLeft: "0px" }, 180);
-  }
+  if (!window.jQuery) return;
+
+  $(resultEl)
+    .stop(true, true)
+    .css({ opacity: 0, marginLeft: "16px" })
+    .animate({ opacity: 1, marginLeft: "0px" }, 180);
 }
 
 function animateEarthIn(imgEl, captionEl) {
@@ -210,7 +191,6 @@ function animateEarthOutIfNeeded(imgEl, captionEl) {
 
     const hasImage = !!imgEl.getAttribute("src");
     const hasText = !!captionEl.textContent.trim();
-
     if (!hasImage && !hasText) return resolve();
 
     let done = 0;

@@ -1,11 +1,10 @@
-// projects.js (projects page only) — with jQuery animations
+// Projects page only (uses jQuery animations)
 
 let allItems = [];
 let activeFilter = "all";
 
 window.addEventListener("DOMContentLoaded", () => {
-  const page = document.body.dataset.page;
-  if (page !== "projects") return;
+  if (document.body.dataset.page !== "projects") return;
 
   initProjectsPage().catch((err) => {
     console.error(err);
@@ -21,11 +20,13 @@ async function initProjectsPage() {
   renderProjects(allItems, { animate: true });
 }
 
-/* ---------------- Data Loading ---------------- */
+// Data
 
 async function loadProjectsData() {
   const res = await fetch("data/projects.json", { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to fetch data/projects.json (status ${res.status})`);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch data/projects.json (status ${res.status})`);
+  }
 
   const data = await res.json();
   if (!data || !Array.isArray(data.items)) {
@@ -35,7 +36,7 @@ async function loadProjectsData() {
   allItems = data.items;
 }
 
-/* ---------------- Filtering ---------------- */
+// Filters
 
 function wireUpFilters() {
   const filtersEl = document.getElementById("filters");
@@ -45,7 +46,7 @@ function wireUpFilters() {
     const btn = e.target.closest("button[data-filter]");
     if (!btn) return;
 
-    // Update active state (visual + a11y)
+    // Keep visual + a11y state in sync.
     filtersEl.querySelectorAll("button[data-filter]").forEach((b) => {
       const isActive = b === btn;
       b.classList.toggle("is-active", isActive);
@@ -66,10 +67,12 @@ function applyFilter(items, filter) {
     return items.filter((item) => item.kind === filter);
   }
 
-  return items.filter((item) => Array.isArray(item.domains) && item.domains.includes(filter));
+  return items.filter(
+    (item) => Array.isArray(item.domains) && item.domains.includes(filter)
+  );
 }
 
-/* ---------------- Rendering ---------------- */
+// Render
 
 function renderProjects(items, { animate } = { animate: false }) {
   const grid = document.getElementById("projects-grid");
@@ -88,10 +91,7 @@ function renderProjects(items, { animate } = { animate: false }) {
   items.forEach((item) => frag.appendChild(createCard(item)));
   grid.appendChild(frag);
 
-  // jQuery card entrance animation (staggered)
-  if (animate) {
-    animateCardsIn();
-  }
+  if (animate) animateCardsIn();
 
   updateDomainChipHighlights(activeFilter);
   updateCardGlowMatches(activeFilter);
@@ -161,9 +161,7 @@ function createCard(item) {
   if (ul.childNodes.length) card.appendChild(ul);
   if (metricsWrap) card.appendChild(metricsWrap);
 
-  // ✅ NEW: multi-color glow based on domains in the card
   applyCardGlow(card, domains);
-
   return card;
 }
 
@@ -174,13 +172,13 @@ function makeChip(text, type) {
 
   if (type === "domain") {
     chip.classList.add("chip-domain");
-    chip.dataset.domain = String(text || "").trim(); // e.g., "AI", "Web", "Data"
+    chip.dataset.domain = String(text || "").trim();
   }
 
   return chip;
 }
 
-/* ---------------- Multi-color card glow ---------------- */
+// Card glow
 
 const DOMAIN_COLORS = {
   XR: "var(--c-xr)",
@@ -204,14 +202,18 @@ function applyCardGlow(cardEl, domains = []) {
   cardEl.style.setProperty("--g3", c3);
 }
 
-/* ---------------- Active Filter Highlighting ---------------- */
+// Active filter highlighting
 
 function updateDomainChipHighlights(active) {
   const chips = document.querySelectorAll(".chip-domain");
   if (!chips.length) return;
 
   const isDomain =
-    active === "XR" || active === "AI" || active === "Web" || active === "Data" || active === "Mobile";
+    active === "XR" ||
+    active === "AI" ||
+    active === "Web" ||
+    active === "Data" ||
+    active === "Mobile";
 
   chips.forEach((chip) => {
     const match = isDomain && chip.dataset.domain === active;
@@ -224,24 +226,31 @@ function updateCardGlowMatches(active) {
   if (!cards.length) return;
 
   const isDomain =
-    active === "XR" || active === "AI" || active === "Web" || active === "Data" || active === "Mobile";
+    active === "XR" ||
+    active === "AI" ||
+    active === "Web" ||
+    active === "Data" ||
+    active === "Mobile";
 
   cards.forEach((card) => {
     const domainsStr = card.dataset.domains || "";
-    const domains = domainsStr.split(",").map((s) => s.trim()).filter(Boolean);
+    const domains = domainsStr
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     const matches = isDomain && domains.includes(active);
     card.classList.toggle("is-filter-match", matches);
   });
 }
 
-/* ---------------- jQuery Animations ---------------- */
+// Animations (jQuery)
 
 function animateCardsIn() {
   if (typeof window.jQuery === "undefined") return;
 
   const $cards = $(".project-card");
 
-  // Start cards slightly off to the right + invisible
   $cards.each(function (i) {
     $(this)
       .css({ opacity: 0, marginLeft: "24px" })
@@ -264,19 +273,16 @@ function animateSwap(renderFn) {
     return;
   }
 
-  // Slide existing cards out to the left, then re-render, then slide new ones in
   let done = 0;
   $cards.each(function () {
     $(this).animate({ opacity: 0, marginLeft: "-24px" }, 140, function () {
       done += 1;
-      if (done === $cards.length) {
-        renderFn(); // this will call animateCardsIn()
-      }
+      if (done === $cards.length) renderFn();
     });
   });
 }
 
-/* ---------------- Status ---------------- */
+// Status
 
 function showStatusMessage(msg) {
   const grid = document.getElementById("projects-grid");

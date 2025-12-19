@@ -1,12 +1,12 @@
-// script.js (shared across all pages)
+// Shared
 
-window.addEventListener("DOMContentLoaded", async function () {
+window.addEventListener("DOMContentLoaded", async () => {
   await injectNavbar();
   await injectFooter();
-  initTheme(); // must run AFTER navbar exists
+  initTheme(); // must run after navbar exists
 });
 
-/* ---------------- NAVBAR INJECTION ---------------- */
+// Navbar / footer
 
 async function injectNavbar() {
   const slot = document.getElementById("nav-slot");
@@ -20,6 +20,7 @@ async function injectNavbar() {
     console.warn("Navbar load failed:", e);
   }
 }
+
 async function injectFooter() {
   const slot = document.getElementById("footer-slot");
   if (!slot) return;
@@ -29,7 +30,6 @@ async function injectFooter() {
     if (!res.ok) throw new Error("Failed to load footer");
     slot.innerHTML = await res.text();
 
-    // Set year
     const y = document.getElementById("footer-year");
     if (y) y.textContent = String(new Date().getFullYear());
   } catch (e) {
@@ -37,30 +37,28 @@ async function injectFooter() {
   }
 }
 
-/* ---------------- THEME TOGGLE + localStorage ---------------- */
+// Theme
 
 function initTheme() {
   const btn = document.getElementById("theme-toggle");
   const saved = localStorage.getItem("theme"); // "light" | "dark" | null
 
-  // Apply saved theme (default: light)
   applyTheme(saved === "dark" ? "dark" : "light");
 
-  // If this page doesn't have a theme button, we're done.
   if (!btn) return;
 
-  // Sync accessibility state for the switch UI
+  // Keep aria-checked in sync for accessibility.
   btn.setAttribute(
     "aria-checked",
     document.documentElement.dataset.theme === "dark" ? "true" : "false"
   );
 
-  btn.addEventListener("click", function () {
+  btn.addEventListener("click", () => {
     const current = document.documentElement.dataset.theme || "light";
     const next = current === "dark" ? "light" : "dark";
+
     applyTheme(next);
     localStorage.setItem("theme", next);
-
     btn.setAttribute("aria-checked", next === "dark" ? "true" : "false");
   });
 }

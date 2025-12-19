@@ -9,16 +9,12 @@
   </head>
 
   <body data-page="projects">
-<div id="nav-slot"></div>
-
+    <div id="nav-slot"></div>
 
     <main class="container">
       <section class="section">
         <h2>Projects</h2>
-        <p>
-          This page will load project data from a JSON file and render cards
-          dynamically.
-        </p>
+        <p>This page loads project data from JSON and renders cards dynamically.</p>
 
         <div class="filters-wrap">
           <div class="filters-label">
@@ -28,12 +24,7 @@
             </span>
           </div>
 
-          <div
-            id="filters"
-            class="filters"
-            role="group"
-            aria-label="Project filters"
-          >
+          <div id="filters" class="filters" role="group" aria-label="Project filters">
             <button
               type="button"
               class="filter-btn is-active"
@@ -42,78 +33,43 @@
             >
               All
             </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="project"
-              aria-pressed="false"
-            >
+            <button type="button" class="filter-btn" data-filter="project" aria-pressed="false">
               Projects
             </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="work"
-              aria-pressed="false"
-            >
+            <button type="button" class="filter-btn" data-filter="work" aria-pressed="false">
               Work
             </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="XR"
-              aria-pressed="false"
-            >
+            <button type="button" class="filter-btn" data-filter="XR" aria-pressed="false">
               XR
             </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="AI"
-              aria-pressed="false"
-            >
+            <button type="button" class="filter-btn" data-filter="AI" aria-pressed="false">
               AI
             </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="Web"
-              aria-pressed="false"
-            >
+            <button type="button" class="filter-btn" data-filter="Web" aria-pressed="false">
               Web
             </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="Data"
-              aria-pressed="false"
-            >
+            <button type="button" class="filter-btn" data-filter="Data" aria-pressed="false">
               Data
             </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="Mobile"
-              aria-pressed="false"
-            >
+            <button type="button" class="filter-btn" data-filter="Mobile" aria-pressed="false">
               Mobile
             </button>
           </div>
         </div>
 
         <div id="projects-grid" aria-live="polite">
-          <!-- JS will inject project cards here -->
+          <!-- Cards render here -->
         </div>
       </section>
     </main>
 
-    <!-- Shared base behavior: theme, etc. -->
+    <!-- Shared -->
     <script src="script.js"></script>
 
-    <!-- Page-specific behavior (we'll build next) -->
+    <!-- Page scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="projects.js"></script>
-  <div id="footer-slot"></div>
 
-</body>
+    <div id="footer-slot"></div>
+  </body>
 </html>
