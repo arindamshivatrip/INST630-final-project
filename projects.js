@@ -79,6 +79,8 @@ function renderProjects(items, { animate } = { animate: false }) {
 
   if (!items.length) {
     showStatusMessage("No items match this filter.");
+    updateDomainChipHighlights(activeFilter);
+    updateCardGlowMatches(activeFilter);
     return;
   }
 
@@ -90,6 +92,9 @@ function renderProjects(items, { animate } = { animate: false }) {
   if (animate) {
     animateCardsIn();
   }
+
+  updateDomainChipHighlights(activeFilter);
+  updateCardGlowMatches(activeFilter);
 }
 
 function createCard(item) {
@@ -109,24 +114,24 @@ function createCard(item) {
   const date = item.dateRange ? ` · ${item.dateRange}` : "";
   meta.textContent = `${org}${role}${date}`.trim();
 
-const chips = document.createElement("div");
-chips.className = "chips";
+  const chips = document.createElement("div");
+  chips.className = "chips";
 
-const domains = Array.isArray(item.domains) ? item.domains : [];
-if (domains.length) {
-  const domainRow = document.createElement("div");
-  domainRow.className = "chip-row chip-row--domains";
-  domains.forEach((d) => domainRow.appendChild(makeChip(d, "domain")));
-  chips.appendChild(domainRow);
-}
+  const domains = Array.isArray(item.domains) ? item.domains : [];
+  if (domains.length) {
+    const domainRow = document.createElement("div");
+    domainRow.className = "chip-row chip-row--domains";
+    domains.forEach((d) => domainRow.appendChild(makeChip(d, "domain")));
+    chips.appendChild(domainRow);
+  }
 
-const tech = Array.isArray(item.tech) ? item.tech : [];
-if (tech.length) {
-  const techRow = document.createElement("div");
-  techRow.className = "chip-row chip-row--tech";
-  tech.slice(0, 6).forEach((t) => techRow.appendChild(makeChip(t, "tech")));
-  chips.appendChild(techRow);
-}
+  const tech = Array.isArray(item.tech) ? item.tech : [];
+  if (tech.length) {
+    const techRow = document.createElement("div");
+    techRow.className = "chip-row chip-row--tech";
+    tech.slice(0, 6).forEach((t) => techRow.appendChild(makeChip(t, "tech")));
+    chips.appendChild(techRow);
+  }
 
   const ul = document.createElement("ul");
   ul.className = "highlights";
@@ -156,6 +161,9 @@ if (tech.length) {
   if (ul.childNodes.length) card.appendChild(ul);
   if (metricsWrap) card.appendChild(metricsWrap);
 
+  // ✅ NEW: multi-color glow based on domains in the card
+  applyCardGlow(card, domains);
+
   return card;
 }
 
@@ -163,7 +171,67 @@ function makeChip(text, type) {
   const chip = document.createElement("span");
   chip.className = `chip chip-${type}`;
   chip.textContent = text;
+
+  if (type === "domain") {
+    chip.classList.add("chip-domain");
+    chip.dataset.domain = String(text || "").trim(); // e.g., "AI", "Web", "Data"
+  }
+
   return chip;
+}
+
+/* ---------------- Multi-color card glow ---------------- */
+
+const DOMAIN_COLORS = {
+  XR: "var(--c-xr)",
+  AI: "var(--c-ai)",
+  Web: "var(--c-web)",
+  Data: "var(--c-data)",
+  Mobile: "var(--c-mobile)",
+  work: "#6366f1",
+  project: "#2dd4bf",
+};
+
+function applyCardGlow(cardEl, domains = []) {
+  const uniq = [...new Set((domains || []).map((d) => String(d).trim()).filter(Boolean))];
+
+  const c1 = DOMAIN_COLORS[uniq[0]] || "var(--accent)";
+  const c2 = DOMAIN_COLORS[uniq[1]] || c1;
+  const c3 = DOMAIN_COLORS[uniq[2]] || c2;
+
+  cardEl.style.setProperty("--g1", c1);
+  cardEl.style.setProperty("--g2", c2);
+  cardEl.style.setProperty("--g3", c3);
+}
+
+/* ---------------- Active Filter Highlighting ---------------- */
+
+function updateDomainChipHighlights(active) {
+  const chips = document.querySelectorAll(".chip-domain");
+  if (!chips.length) return;
+
+  const isDomain =
+    active === "XR" || active === "AI" || active === "Web" || active === "Data" || active === "Mobile";
+
+  chips.forEach((chip) => {
+    const match = isDomain && chip.dataset.domain === active;
+    chip.classList.toggle("is-active", match);
+  });
+}
+
+function updateCardGlowMatches(active) {
+  const cards = document.querySelectorAll(".project-card");
+  if (!cards.length) return;
+
+  const isDomain =
+    active === "XR" || active === "AI" || active === "Web" || active === "Data" || active === "Mobile";
+
+  cards.forEach((card) => {
+    const domainsStr = card.dataset.domains || "";
+    const domains = domainsStr.split(",").map((s) => s.trim()).filter(Boolean);
+    const matches = isDomain && domains.includes(active);
+    card.classList.toggle("is-filter-match", matches);
+  });
 }
 
 /* ---------------- jQuery Animations ---------------- */
@@ -178,10 +246,7 @@ function animateCardsIn() {
     $(this)
       .css({ opacity: 0, marginLeft: "24px" })
       .delay(i * 70)
-      .animate(
-        { opacity: 1, marginLeft: "0px" },
-        220
-      );
+      .animate({ opacity: 1, marginLeft: "0px" }, 220);
   });
 }
 
@@ -202,16 +267,12 @@ function animateSwap(renderFn) {
   // Slide existing cards out to the left, then re-render, then slide new ones in
   let done = 0;
   $cards.each(function () {
-    $(this).animate(
-      { opacity: 0, marginLeft: "-24px" },
-      140,
-      function () {
-        done += 1;
-        if (done === $cards.length) {
-          renderFn(); // this will call animateCardsIn()
-        }
+    $(this).animate({ opacity: 0, marginLeft: "-24px" }, 140, function () {
+      done += 1;
+      if (done === $cards.length) {
+        renderFn(); // this will call animateCardsIn()
       }
-    );
+    });
   });
 }
 
