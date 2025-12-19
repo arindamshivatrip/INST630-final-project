@@ -20,54 +20,91 @@ function initSleepCoffeeTool() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const hours = Number(input.value);
-
-    if (!Number.isFinite(hours) || hours < 0 || hours > 24) {
-      showResult(
-        result,
-        "Give me a real number between 0 and 24 hours. (Unless you discovered time travel.)",
-        true
-      );
-      return;
-    }
+    // keep the raw input so we can detect weird stuff cleanly
+    const raw = input.value.trim();
+    const hours = Number(raw);
 
     const output = computeCoffeeRecommendation(hours);
-    showResult(result, output.message, false);
-    input.blur();
+
+    showResult(result, output.message, output.isError);
+    if (!output.isError) input.blur();
   });
 }
 
 function computeCoffeeRecommendation(hoursSlept) {
-  const ideal = 8;
-  const debt = Math.max(0, Math.min(ideal - hoursSlept, 8)); // cap at 8
-  let cups = Math.ceil(debt / 2);
+  const h = Number(hoursSlept);
 
-  let tone;
-  if (hoursSlept >= 8) {
-    cups = 0;
-    tone = "You’re functioning like a responsible adult. Respect.";
-  } else if (hoursSlept >= 6) {
-    tone = "Not terrible. A little caffeine and vibes and you’re fine.";
-  } else if (hoursSlept >= 4) {
-    tone = "We’re in the danger zone. Proceed carefully and avoid deep conversations.";
-  } else if (hoursSlept > 0) {
-    tone = "Okay bestie… today is about survival, not excellence.";
-  } else {
-    cups = 4;
-    tone = "Zero hours? That’s not ‘productive,’ that’s a cry for help. Drink water too.";
+  // invalid / negative
+  if (!Number.isFinite(h) || h < 0) {
+    return {
+      cups: 0,
+      isError: true,
+      message:
+        "Bestie… be serious for a sec.\n" +
+        "Hours slept = a real number between 0 and 24 pls."
+    };
   }
 
-  cups = Math.min(cups, 4);
+  // spacetime jokes
+  if (h > 24) {
+    return {
+      cups: 0,
+      isError: true,
+      message:
+        `You slept ${h} hours.\n` +
+        "Congrats, you bent spacetime.\n" +
+        "Try again without breaking physics."
+    };
+  }
+
+  if (h === 24) {
+    return {
+      cups: 0,
+      isError: false,
+      message:
+        "You slept 24 hours.\n" +
+        "Coffee: 0 cups ☕\n" +
+        "That wasn’t rest, that was a factory reset."
+    };
+  }
+
+  // coffee math (max 6)
+  const ideal = 8;
+  const debt = Math.max(0, Math.min(ideal - h, 12));
+  let cups = Math.ceil(debt / 1.5);
+  cups = Math.min(Math.max(cups, 0), 6);
+
   const cupWord = cups === 1 ? "cup" : "cups";
+  const cupEmojis = cups > 0 ? "☕".repeat(cups) : "☕";
+
+  // bestie vibes (short + punchy)
+  let vibe;
+  if (h >= 9.5) vibe = "Emotionally stable. Mentally powerful. Scary.";
+  else if (h >= 8) vibe = "Fully functional human behavior.";
+  else if (h >= 7) vibe = "You’re fine. Don’t overthink it.";
+  else if (h >= 6) vibe = "Okay but be gentle with yourself today.";
+  else if (h >= 5) vibe = "Today runs on vibes, not discipline.";
+  else if (h >= 4) vibe = "You’re awake on vibes and audacity.";
+  else if (h > 0) vibe = "Survival mode. One task. One thought.";
+  else {
+    cups = 6;
+    vibe = "Zero sleep?? Bestie please drink water.";
+  }
+
+  const finalCupWord = cups === 1 ? "cup" : "cups";
+  const finalCupEmojis = cups > 0 ? "☕".repeat(cups) : "☕";
 
   return {
     cups,
+    isError: false,
     message:
-      `You slept ${hoursSlept} hours.\n` +
-      `Recommended coffee: ${cups} ${cupWord} ☕\n` +
-      tone
+      `You slept ${h} hours.\n` +
+      `Coffee: ${cups} ${finalCupWord} ${finalCupEmojis}\n` +
+      vibe
   };
 }
+
+
 
 /* ---------------- 2) Earth Fun Facts (Bootprint API) ---------------- */
 /*

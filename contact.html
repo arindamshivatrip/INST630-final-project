@@ -4,20 +4,53 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ari Portfolio — Contact</title>
-  <script src="theme-init.js"></script>
+    <script src="theme-init.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body data-page="contact">
-<div id="nav-slot"></div>
+    <div id="nav-slot"></div>
 
     <main class="container">
       <section class="section">
         <h2>Contact</h2>
         <p>
-          Want to reach out? Send a quick message here or use the email link below.
+          Want to reach out? The fastest way is one of the links below — or you can
+          send a longer message with the form.
         </p>
       </section>
+
+<section class="section" id="contact-links">
+  <h3>Find me online</h3>
+
+  <div class="contact-links" role="navigation" aria-label="Contact links">
+    <a class="contact-link" href="mailto:arindamtrip@gmail.com">
+      <img src="assets/icons/email.svg" alt="" aria-hidden="true" />
+      <span>Email</span>
+    </a>
+
+    <a
+      class="contact-link"
+      href="https://www.linkedin.com/in/arindamtrip/"
+      target="_blank"
+      rel="noopener"
+    >
+      <img src="assets/icons/linkedin.svg" alt="" aria-hidden="true" />
+      <span>LinkedIn</span>
+    </a>
+
+    <a
+      class="contact-link"
+      href="https://github.com/arindamshivatrip"
+      target="_blank"
+      rel="noopener"
+    >
+      <img src="assets/icons/github.svg" alt="" aria-hidden="true" />
+      <span>GitHub</span>
+    </a>
+  </div>
+</section>
+
 
       <section class="section" id="contact-section">
         <h3>Send a message</h3>
@@ -70,40 +103,20 @@
               placeholder="Write something nice 🙂"
             ></textarea>
             <div id="message-counter" aria-live="polite" style="white-space: pre-wrap;"></div>
-
           </div>
 
           <button type="submit">Generate email draft</button>
           <button type="button" id="open-email">Open in email app</button>
         </form>
 
-<div id="contact-status" aria-live="polite" style="white-space: pre-wrap;"></div>
-
-        <hr />
-
-        <h3>Direct links</h3>
-        <ul>
-          <li>
-            Email:
-            <a id="contact-email-link" href="mailto:arindamtrip@gmail.com">
-              arindamtrip@gmail.com
-            </a>
-          </li>
-          <li>LinkedIn: <a href="#" id="contact-linkedin" target="_blank" rel="noopener">Your LinkedIn</a></li>
-          <li>GitHub: <a href="#" id="contact-github" target="_blank" rel="noopener">Your GitHub</a></li>
-        </ul>
+        <div id="contact-status" aria-live="polite" style="white-space: pre-wrap;"></div>
       </section>
     </main>
 
-    <!-- Shared -->
     <script src="script.js"></script>
-
-    <!-- Optional jQuery for animations on this page too -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <!-- Contact page JS (we’ll build next) -->
     <script src="contact.js"></script>
-  <div id="footer-slot"></div>
 
-</body>
+    <div id="footer-slot"></div>
+  </body>
 </html>
